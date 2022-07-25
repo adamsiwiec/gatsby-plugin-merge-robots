@@ -5,7 +5,7 @@
     "src/gatsby-node.js"
   ],
   "main": "index.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Gatsby plugin that merges robots.txt for your site and existing subdirectories",
   "scripts": {
     "clean": "rm -rf gatsby-node.js",
@@ -31,22 +31,22 @@
     "gatsby-plugin"
   ],
   "dependencies": {
-    "@babel/runtime": "^7.17.9",
+    "@babel/runtime": "^7.18.9",
     "axios": "^0.27.2",
     "generate-robotstxt": "^8.0.3"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.9",
-    "@babel/eslint-parser": "^7.17.0",
-    "@babel/plugin-transform-runtime": "^7.17.0",
-    "@babel/preset-env": "^7.16.11",
-    "eslint": "^8.13.0",
-    "eslint-plugin-markdown": "^2.2.1",
-    "jest": "^27.5.1",
-    "memfs": "^3.3.0",
-    "prettier": "^2.6.2",
-    "semantic-release": "^19.0.2"
+    "@babel/cli": "^7.18.9",
+    "@babel/core": "^7.18.9",
+    "@babel/eslint-parser": "^7.18.9",
+    "@babel/plugin-transform-runtime": "^7.18.9",
+    "@babel/preset-env": "^7.18.9",
+    "eslint": "^8.20.0",
+    "eslint-plugin-markdown": "^3.0.0",
+    "jest": "^28.1.3",
+    "memfs": "^3.4.7",
+    "prettier": "^2.7.1",
+    "semantic-release": "^19.0.3"
   },
   "peerDependencies": {
     "gatsby": "^4.0.0 || ^3.0.0 || ^2.0.0"
