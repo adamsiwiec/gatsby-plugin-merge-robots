@@ -41,7 +41,7 @@ const getOptions = pluginOptions => {
   return { ...options, ...envOptions };
 };
 
-export async function onPostBuild({ graphql, pathPrefix = "", reporter }, pluginOptions) {
+export async function onPostBuild({ graphql, pathPrefix = "" }, pluginOptions) {
   const userOptions = getOptions(pluginOptions);
   const mergedOptions = { ...defaultOptions, ...userOptions };
 

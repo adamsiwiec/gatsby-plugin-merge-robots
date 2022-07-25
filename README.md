@@ -19,7 +19,7 @@ module.exports = {
       options: {
         host: 'https://www.example.com',
         sitemap: 'https://www.example.com/sitemap.xml',
-        policy: [{userAgent: '*', allow: '/'}]
+        policy: [{userAgent: '*', allow: '/'}],
         external: ["https://example.com/blog/robots.txt"]
       }
     }
