@@ -5,7 +5,7 @@
     "src/gatsby-node.js"
   ],
   "main": "index.js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Gatsby plugin that merges robots.txt for your site and existing subdirectories",
   "scripts": {
     "clean": "rm -rf gatsby-node.js",
