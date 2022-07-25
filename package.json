@@ -1,11 +1,12 @@
 {
-  "name": "gatsby-plugin-robots-txt",
+  "name": "gatsby-plugin-merge-robots",
   "files": [
     "gatsby-*.js*",
     "src/gatsby-node.js"
   ],
   "main": "index.js",
-  "description": "Gatsby plugin that automatically creates robots.txt for your site",
+  "version": "0.0.1",
+  "description": "Gatsby plugin that merges robots.txt for your site and existing subdirectories",
   "scripts": {
     "clean": "rm -rf gatsby-node.js",
     "lint": "eslint --ext js,md ./ --cache",
@@ -15,15 +16,15 @@
     "watch": "yarn build --watch",
     "release": "semantic-release"
   },
-  "homepage": "https://github.com/mdreizin/gatsby-plugin-robots-txt",
+  "homepage": "https://github.com/adamsiwiec/gatsby-plugin-merge-robots",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mdreizin/gatsby-plugin-robots-txt.git"
+    "url": "https://github.com/adamsiwiec/gatsby-plugin-merge-robots.git"
   },
   "bugs": {
-    "url": "https://github.com/mdreizin/gatsby-plugin-robots-txt/issues"
+    "url": "https://github.com/adamsiwiec/gatsby-plugin-merge-robots/issues"
   },
-  "author": "Marat Dreizin <marat.dreizin@gmail.com>",
+  "author": "Adam Siwiec <adam@siwiec.us",
   "license": "MIT",
   "keywords": [
     "gatsby",
@@ -31,6 +32,7 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.17.9",
+    "axios": "^0.27.2",
     "generate-robotstxt": "^8.0.3"
   },
   "devDependencies": {

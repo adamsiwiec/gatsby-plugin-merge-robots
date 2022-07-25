@@ -1,20 +1,40 @@
-[![NPM version](https://img.shields.io/npm/v/gatsby-plugin-robots-txt.svg)](https://www.npmjs.org/package/gatsby-plugin-robots-txt)
-[![Actions Build Status](https://github.com/mdreizin/gatsby-plugin-robots-txt/workflows/CI/badge.svg)](https://github.com/mdreizin/gatsby-plugin-robots-txt/actions)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=gatsby-plugin-robots-txt&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=gatsby-plugin-robots-txt)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gatsby-plugin-robots-txt&metric=coverage)](https://sonarcloud.io/dashboard?id=gatsby-plugin-robots-txt)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmdreizin%2Fgatsby-plugin-robots-txt.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmdreizin%2Fgatsby-plugin-robots-txt?ref=badge_shield)
+[![NPM version](https://img.shields.io/npm/v/gatsby-plugin-merge-robots.svg)](https://www.npmjs.org/package/gatsby-plugin-merge-robots)
+[![Actions Build Status](https://github.com/adamsiwiec/gatsby-plugin-merge-robots/workflows/CI/badge.svg)](https://github.com/adamsiwiec/gatsby-plugin-merge-robots/actions)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=atsby-plugin-merge-robots&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=atsby-plugin-merge-robots)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=atsby-plugin-merge-robots&metric=coverage)](https://sonarcloud.io/dashboard?id=atsby-plugin-merge-robots)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fadamsiwiec%2Fatsby-plugin-merge-robots.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fadamsiwiec%2Fatsby-plugin-merge-robots?ref=badge_shield)
 
-# gatsby-plugin-robots-txt
+# gatsby-plugin-merge-robots
 
-> Create `robots.txt` for your Gatsby site on build.
+> Based off [the default gatsby robots.txt plugin](https://github.com/mdreizin/gatsby-plugin-robots-txt). Create `robots.txt` for your Gatsby site on build.
+
+Have another app/service/subdomain not managed by your gatsby site, but need to consolidate to one `robots.txt`?
+`gatsby-plugin-merge-robots` is a drop-in replacement for `gatsby-plugin-robots-txt` with one added parameter:
+
+```js
+module.exports = {
+  plugins: [
+    {
+      resolve: 'gatsby-plugin-merge-robots',
+      options: {
+        host: 'https://www.example.com',
+        sitemap: 'https://www.example.com/sitemap.xml',
+        policy: [{userAgent: '*', allow: '/'}]
+        external: ["https://example.com/blog/robots.txt"]
+      }
+    }
+  ]
+};
+```
+The plugin will pull and refactor the external robots.txt by removing unneessary metadata, transforming the path to be compatible with your root level `robots.txt`, then appending it to the output of your gatsby `robots.txt`. Magic! ⚡
 
 ## Install
 
-`yarn add gatsby-plugin-robots-txt`
+`yarn add gatsby-plugin-merge-robots`
 
 or
 
-`npm install --save gatsby-plugin-robots-txt`
+`npm install --save gatsby-plugin-merge-robots`
 
 ## How To Use
 
@@ -25,7 +45,7 @@ module.exports = {
   siteMetadata: {
     siteUrl: 'https://www.example.com'
   },
-  plugins: ['gatsby-plugin-robots-txt']
+  plugins: ['gatsby-plugin-merge-robots']
 };
 ```
 
@@ -34,13 +54,13 @@ module.exports = {
 This plugin uses [`generate-robotstxt`](https://github.com/itgalaxy/generate-robotstxt#usage) to generate content
 of `robots.txt` and it has the following options:
 
-|     Name     |    Type    |                Default                |                                  Description                                   |
-| :----------: | :--------: | :-----------------------------------: | :----------------------------------------------------------------------------: |
-|    `host`    |  `String`  |       `${siteMetadata.siteUrl}`       |                               Host of your site                                |
-|  `sitemap`   |  `String` / `String[]`  | `${siteMetadata.siteUrl}/sitemap/sitemap-index.xml` |                             Path(s) to `sitemap.xml`                              |
-|   `policy`   | `Policy[]` |                 `[]`                  | List of [`Policy`](https://github.com/itgalaxy/generate-robotstxt#usage) rules |
-| `configFile` |  `String`  |              `undefined`              |                          Path to external config file                          |
-|   `output`   |  `String`  |             `/robots.txt`             |                     Path where to create the `robots.txt`                      |
+|     Name     |         Type          |                       Default                       |                                  Description                                   |
+| :----------: | :-------------------: | :-------------------------------------------------: | :----------------------------------------------------------------------------: |
+|    `host`    |       `String`        |              `${siteMetadata.siteUrl}`              |                               Host of your site                                |
+|  `sitemap`   | `String` / `String[]` | `${siteMetadata.siteUrl}/sitemap/sitemap-index.xml` |                            Path(s) to `sitemap.xml`                            |
+|   `policy`   |      `Policy[]`       |                        `[]`                         | List of [`Policy`](https://github.com/itgalaxy/generate-robotstxt#usage) rules |
+| `configFile` |       `String`        |                     `undefined`                     |                          Path to external config file                          |
+|   `output`   |       `String`        |                    `/robots.txt`                    |                     Path where to create the `robots.txt`                      |
 
 `gatsby-config.js`
 
@@ -48,7 +68,7 @@ of `robots.txt` and it has the following options:
 module.exports = {
   plugins: [
     {
-      resolve: 'gatsby-plugin-robots-txt',
+      resolve: 'gatsby-plugin-merge-robots',
       options: {
         host: 'https://www.example.com',
         sitemap: 'https://www.example.com/sitemap.xml',
@@ -67,7 +87,7 @@ module.exports = {
 module.exports = {
   plugins: [
     {
-      resolve: 'gatsby-plugin-robots-txt',
+      resolve: 'gatsby-plugin-merge-robots',
       options: {
         host: 'https://www.example.com',
         sitemap: 'https://www.example.com/sitemap.xml',
@@ -97,7 +117,7 @@ You can resolve the `env` key by using `resolveEnv` function:
 module.exports = {
   plugins: [
     {
-      resolve: 'gatsby-plugin-robots-txt',
+      resolve: 'gatsby-plugin-merge-robots',
       options: {
         host: 'https://www.example.com',
         sitemap: 'https://www.example.com/sitemap.xml',
@@ -126,7 +146,7 @@ You can use the `configFile` option to set specific external configuration:
 module.exports = {
   plugins: [
     {
-      resolve: 'gatsby-plugin-robots-txt',
+      resolve: 'gatsby-plugin-merge-robots',
       options: {
         configFile: 'robots-txt.config.js'
       }
@@ -169,7 +189,7 @@ module.exports = {
   },
   plugins: [
     {
-      resolve: 'gatsby-plugin-robots-txt',
+      resolve: 'gatsby-plugin-merge-robots',
       options: {
         resolveEnv: () => NETLIFY_ENV,
         env: {
@@ -205,7 +225,7 @@ used to provide a different value from another data source as long as it returns
 module.exports = {
   plugins: [
     {
-      resolve: 'gatsby-plugin-robots-txt',
+      resolve: 'gatsby-plugin-merge-robots',
       options: {
         query: `{
           site: MyCustomDataSource {
@@ -220,6 +240,12 @@ module.exports = {
 };
 ```
 
+# Contributors
+
+- [Adam Siwiec](https://github.com/adamsiwiec) - [website](https://siwiec.us) 
+
 ## License
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmdreizin%2Fgatsby-plugin-robots-txt.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmdreizin%2Fgatsby-plugin-robots-txt?ref=badge_large)
+MIT License
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fadamsiwiec%2Fatsby-plugin-merge-robots.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fadamsiwiec%2Fatsby-plugin-merge-robots?ref=badge_large)

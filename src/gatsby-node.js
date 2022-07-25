@@ -1,6 +1,7 @@
 import fsp from 'fs/promises';
 import robotsTxt from 'generate-robotstxt';
 import path from 'path';
+import axios from 'axios';
 
 const publicPath = './public';
 const defaultEnv = 'development';
@@ -40,11 +41,11 @@ const getOptions = pluginOptions => {
   return { ...options, ...envOptions };
 };
 
-export async function onPostBuild({ graphql, pathPrefix = "" }, pluginOptions) {
+export async function onPostBuild({ graphql, pathPrefix = "", reporter }, pluginOptions) {
   const userOptions = getOptions(pluginOptions);
   const mergedOptions = { ...defaultOptions, ...userOptions };
 
-  if(mergedOptions.host !== null) {
+  if (mergedOptions.host !== null) {
     if (
       !Object.prototype.hasOwnProperty.call(mergedOptions, 'host')
     ) {
@@ -58,7 +59,7 @@ export async function onPostBuild({ graphql, pathPrefix = "" }, pluginOptions) {
     }
   }
 
-  if(mergedOptions.sitemap !== null) {
+  if (mergedOptions.sitemap !== null) {
     if (
       !Object.prototype.hasOwnProperty.call(mergedOptions, 'sitemap')
     ) {
@@ -73,14 +74,41 @@ export async function onPostBuild({ graphql, pathPrefix = "" }, pluginOptions) {
     }
   }
 
-  const { policy, sitemap, host, output, configFile } = mergedOptions;
+  if (mergedOptions.external !== null) {
+    if (
+      !Object.prototype.hasOwnProperty.call(mergedOptions, 'external')
+    ) {
+      mergedOptions.external = mergedOptions.external.filter(url => {
+        try {
+          new URL(url)
+        } catch {
+          return false
+        }
+        return true
+      });
+    }
+  }
 
-  const content = await robotsTxt({
+  const { policy, sitemap, host, output, configFile, external } = mergedOptions;
+
+  let content = await robotsTxt({
     policy,
     sitemap,
     host,
     configFile
   });
+
+  for (const url of external) {
+    const externalRes = await axios.get(url);
+    const path = new URL(url).pathname;
+    const subpath = path.substring(0, path.lastIndexOf('/'));
+    let robots = externalRes.data;
+    robots = robots.replace(/llow: \//gm, 'llow: ' + subpath + '/');
+    robots = robots.replace(/^Sitemap: .*\n?/gm, '');
+    content += robots;
+  }
+
+
   const filename = path.join(publicPath, output);
 
   return fsp.writeFile(path.resolve(filename), content);
